@@ -1,0 +1,20 @@
+Stress Level 0 (No Stress):
+Limb Movement: 5
+Sleeping Hours: 7
+Snoring Rate: 47
+Eye Movement: 68
+Body Temperature: 97
+
+Stress Level 1 (Low Stress):
+Limb Movement: 9
+Sleeping Hours: 6
+Snoring Rate: 57
+Eye Movement: 83
+Body Temperature: 95
+
+Stress Level 2 (High Stress):
+Limb Movement: 10
+Sleeping Hours: 3
+Snoring Rate: 64
+Eye Movement: 87
+Body Temperature: 92
