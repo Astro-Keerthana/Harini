@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Gaze Tracking{% endblock %}
+
+{% block content %}
+    <style>
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center; /* Center the heading */
+        }
+
+        #controls {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center; /* Center the buttons */
+        }
+
+        #controls button {
+            margin: 0 10px; /* Space between buttons */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column; /* Arrange items in a column */
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #camera {
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        #result {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #result.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+    </style>
+
+    <h1 class="fade-in">Eye Tracking</h1>
+    
+    <div id="controls">
+        <button onclick="startCamera()">Start Camera</button>
+        <button onclick="stopCamera()">Stop Camera</button>
+    </div>
+    
+    <div class="container">
+        <img id="camera" src="{{ url_for('video_feed') }}" class="hidden fade-in">
+        <div id="result" class="hidden"></div>
+    </div>
+
+    <script>
+        function startCamera() {
+            const camera = document.getElementById('camera');
+            camera.classList.remove('hidden'); // Show the camera
+            camera.src = "{{ url_for('video_feed') }}" + "?time=" + new Date().getTime(); // Prevent caching
+            fetch('/start_camera');
+        }
+
+        function stopCamera() {
+            fetch('/stop_camera')
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = `
+                        <h2>Analysis Result</h2>
+                        <p>${data.result}</p>
+                        <img src="data:image/png;base64,${data.chart}" alt="Chart">
+                        
+                    `;
+                    resultDiv.classList.add('visible');
+                });
+        }
+
+        // Automatically refresh the camera feed every few seconds (optional)
+        setInterval(() => {
+            const camera = document.getElementById('camera');
+            if (!camera.classList.contains('hidden')) {
+                camera.src = "{{ url_for('video_feed') }}" + "?time=" + new Date().getTime();
+            }
+        }, 5000); // Refresh every 5 seconds (adjust as needed)
+    </script>
+{% endblock %}

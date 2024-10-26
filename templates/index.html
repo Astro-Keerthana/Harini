@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .home-page {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    </style>
+
+    <div class="home-page fade-in">
+        <h1>Welcome to The Stress Prediction Application</h1>
+        <div class="button-container">
+            <a href="{{ url_for('predict_stress_view') }}" class="button">Predict Stress Level</a>
+            <a href="{{ url_for('gaze_tracking') }}" class="button">Gaze Tracking</a>
+        </div>
+    </div>
+{% endblock %}

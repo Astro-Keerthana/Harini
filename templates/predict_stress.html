@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        form label {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        form input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 20px;
+            color: #6200ea;
+        }
+    </style>
+
+    <form method="POST" class="fade-in">
+        <label for="limb_movement">Limb Movement</label>
+        <input type="text" name="limb_movement" required>
+
+        <label for="sleeping_hours">Sleeping Hours</label>
+        <input type="text" name="sleeping_hours" required>
+
+        <label for="snoring_rate">Snoring Rate</label>
+        <input type="text" name="snoring_rate" required>
+
+        <label for="eye_movement">Eye Movement</label>
+        <input type="text" name="eye_movement" required>
+
+        <label for="body_temperature">Body Temperature</label>
+        <input type="text" name="body_temperature" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <div class="result fade-in">
+            <p>The predicted stress level is: {{ prediction }}</p>
+        </div>
+    {% endif %}
+{% endblock %}
